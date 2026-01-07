@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: mrt_dim_customer
+    columns:
+      - name: customer_wallet
+        tests: [not_null, unique]
+
+  - name: fct_customer_activity_daily
+    columns:
+      - name: txn_date
+        tests: [not_null]
+      - name: customer_wallet
+        tests: [not_null]
+
+  - name: mart_customer_activity_daily
+    description: "Wide mart for Tableau: daily customer activity + customer attributes"
+    columns:
+      - name: txn_date
+        tests: [not_null]
+      - name: customer_wallet
+        tests: [not_null]
