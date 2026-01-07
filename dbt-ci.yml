@@ -1,0 +1,51 @@
+name: dbt CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  dbt:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dbt (Postgres)
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-postgres
+
+      - name: Create profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << 'EOF'
+          dbt_project:
+            target: ci
+            outputs:
+              ci:
+                type: postgres
+                host: "${{ secrets.PGHOST }}"
+                user: "${{ secrets.PGUSER }}"
+                password: "${{ secrets.PGPASSWORD }}"
+                port: 5432
+                dbname: "${{ secrets.PGDATABASE }}"
+                schema: "${{ secrets.PGSCHEMA }}"
+                threads: 4
+          EOF
+
+      - name: dbt deps
+        run: dbt deps
+
+      - name: dbt debug
+        run: dbt debug --target ci
+
+      - name: dbt compile
+        run: dbt compile --target ci
