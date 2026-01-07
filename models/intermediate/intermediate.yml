@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: int_dim_customer
+    description: "Customer dimension (1 row per customer_wallet; latest known hierarchy fields)"
+    columns:
+      - name: customer_wallet
+        tests: [not_null, unique]
+
+  - name: int_fct_customer_activity_daily
+    description: "Daily customer activity fact. Grain: txn_date + customer_wallet"
+    columns:
+      - name: txn_date
+      
+      - name: customer_wallet
+
