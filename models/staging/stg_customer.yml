@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: stg_customer
+    description: "Staging model for public.customer (cleaned/standardized)."
+    columns:
+      - name: txn_date
+        description: "Transaction date."
+        tests:
+          - unique
+
+      - name: customer_wallet
+        description: "Customer wallet identifier."
+
+      
+
+      - name: agent_wallet
+        description: "Agent wallet identifier."
+
+      - name: agent_active_status
+        description: "Agent status flag/value from source."
+
+      - name: dh_code
+        description: "DH code from source."
+
+      - name: distributor_wallet
+        description: "Distributor wallet identifier."
+
+      - name: dso_wallet
+        description: "DSO wallet identifier."
+
+      - name: region
+        description: "Region."
+
+      - name: tm
+        description: "TM field from source."
+
+      - name: rm
+        description: "RM field from source."
+
+      - name: dso
+        description: "DSO field from source."
